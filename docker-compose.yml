@@ -7,10 +7,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    links:
-      - backend
+    volumes:
+      - ./frontend:/app/frontend
     environment:
       - REACT_APP_GRAPHQL_API_URL=http://backend:5000/graphql
+    depends_on:
+      - backend
 
   backend:
     build:
@@ -18,8 +20,12 @@ services:
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
+    volumes:
+      - ./backend:/app/backend
     environment:
       - DYNAMODB_ENDPOINT=http://db:8000
+    depends_on:
+      - db
 
   db:
     image: amazon/dynamodb-local

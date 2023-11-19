@@ -1,7 +1,7 @@
 # Dockerfile for backend service
 FROM python:3.10.12-slim-bullseye
 
-WORKDIR /backend
+WORKDIR /app
 
 COPY requirements.txt ./
 

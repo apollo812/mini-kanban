@@ -1,4 +1,4 @@
-.PHONY: start-frontend start-backend start-db
+.PHONY: start-backend start-frontend start-db
 
 start-frontend:
 	cd frontend && docker-compose up
