@@ -10,14 +10,14 @@ services:
     links:
       - backend
     environment:
-      - REACT_APP_GRAPHQL_API_URL=http://backend:8000/graphql
+      - REACT_APP_GRAPHQL_API_URL=http://backend:5000/graphql
 
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "5000:5000"
     environment:
       - DYNAMODB_ENDPOINT=http://db:8000
 
