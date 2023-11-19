@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.8.7",
+    "graphql": "^16.8.1",
     "gh-pages": "^2.0.1",
     "react": "^16.8.6",
     "react-beautiful-dnd": "^11.0.4",
