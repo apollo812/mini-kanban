@@ -1,0 +1,33 @@
+version: "3.7"
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    links:
+      - backend
+    environment:
+      - REACT_APP_GRAPHQL_API_URL=http://backend:8000/graphql
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - DYNAMODB_ENDPOINT=http://db:8000
+
+  db:
+    image: amazon/dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - dynamodb_data:/home/dynamodblocal
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb"]
+
+volumes:
+  dynamodb_data:
