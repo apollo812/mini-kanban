@@ -49,7 +49,7 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
 
   return (
     <div
-      className={`${showAnimation && "saved"} task-item`}
+      className={`${showAnimation && "opacity-0 transform -translate-x-10 animate-show"} w-full`}
       onDoubleClick={() => setIsEditing(true)}
     >
       {isEditing ? (
@@ -66,7 +66,7 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
         </div>
       ) : (
         <div className="input-group">
-          <div className="px-3 task-text">{task.text}</div>
+          <div className="border border-solid border-transparent p-1.5 px-2.5">{task.text}</div>
         </div>
       )}
     </div>

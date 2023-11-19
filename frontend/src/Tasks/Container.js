@@ -78,7 +78,7 @@ function Tasks() {
                   </div>
                   <div className="col-2">
                     <div
-                      className="add-btn btn"
+                      className="cursor-pointer z-10"
                       onClick={() => addEmptyTask(key)}
                     >
                       <Icon type="add" />

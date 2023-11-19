@@ -48,7 +48,7 @@ function Stage({ data, stage, removeTask, updateTask }) {
                       </div>
                       <div className="col-2">
                         <div
-                          className="remove-btn btn"
+                          className="cursor-pointer z-10"
                           onClick={() => removeTask({ taskID: task.id, stage })}
                         >
                           <Icon type="remove" width="12" height="12" />
