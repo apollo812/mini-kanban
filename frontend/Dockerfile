@@ -1,11 +1,11 @@
 # Use official Node.js image as the base image
-FROM node:18
+FROM node:16
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the container
-COPY package*.json package-lock.json ./
+# Copy package.json to the container
+COPY package*.json ./
 
 # Install project dependencies
 RUN npm install --legacy-peer-deps
