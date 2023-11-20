@@ -6,10 +6,10 @@ function SearchForm({ updateSearchTerm, searchTerm }) {
   }
 
   return (
-    <div className="row">
-      <div className="input-group col-md-4">
+    <div className="">
+      <div className="">
         <input
-          className="form-control"
+          className="focus:border-2 focus:border-blue-400 focus:outline-0 rounded-lg"
           type="text"
           value={searchTerm}
           placeholder="Search tasks..."

@@ -5,15 +5,18 @@ module.exports = {
   ],
   theme: {
     extend: {
-      keyframes: {
-        show: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' }
+      colors: {
+        kanban_bg: {
+          DEFAULT: "#8F3F65",
+          plan: "#101204",
+          card: "#22272B",
+          add_plan: "#AA6D8A",
+          scroll: "#AF8699"
         },
-      },
-      animation: {
-        show: 'show 500ms ease-out forwards',
-      },
+        kanban_txt: {
+          DEFAULT: "#B6C2CF"
+        }
+      }
     },
   },
   plugins: [],

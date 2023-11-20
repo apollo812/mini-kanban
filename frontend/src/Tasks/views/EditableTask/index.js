@@ -49,13 +49,13 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
 
   return (
     <div
-      className={`${showAnimation && "opacity-0 transform -translate-x-10 animate-show"} w-full`}
+      className={`${showAnimation && "opacity-0 transform -translate-x-10"} w-full`}
       onDoubleClick={() => setIsEditing(true)}
     >
       {isEditing ? (
-        <div ref={elementToEdit} className="input-group">
+        <div ref={elementToEdit} className="">
           <input
-            className="form-control"
+            className="focus:border-2 focus:border-blue-400 focus:outline-0 rounded-lg text-sm"
             type="text"
             placeholder="New item..."
             value={text}
@@ -65,8 +65,8 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
           />
         </div>
       ) : (
-        <div className="input-group">
-          <div className="p-1.5 px-2.5">{task.text}</div>
+        <div className="">
+          <div className="text-kanban_txt text-xs">{task.text}</div>
         </div>
       )}
     </div>
