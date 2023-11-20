@@ -3,11 +3,11 @@ import Tasks from "./Tasks/Container";
 
 function App() {
   return (
-    <div className="App">
-      <div className="py-3 jumbotron bg-white text-center">
-        <div className="container">
+    <div>
+      <div className="">
+        <div className="text-center">
           <h1>Mini-Kanban</h1>
-          <p className="lead text-muted">
+          <p>
             This is an example web application of using{" "}
             <strong>useReducer</strong> of React Hooks as an alternative to
             Redux.

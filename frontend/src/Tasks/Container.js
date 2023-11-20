@@ -67,7 +67,7 @@ function Tasks() {
         updateSearchTerm={updateSearchTerm}
         searchTerm={state.tasks.searchTerm}
       />
-      <div className="py-4 row">
+      <div className="py-4 row w-full">
         <DragDropContext onDragEnd={onDragEnd}>
           {stages.map(({ key, title }) => (
             <div className={`col-md-${12 / stages.length}`} key={key}>
