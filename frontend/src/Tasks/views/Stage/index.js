@@ -39,12 +39,12 @@ function Stage({ data, stage, removeTask, updateTask }) {
                   {task.text && (
                     <React.Fragment>
                       <div className="col-1">
-                        <div className="basic-tooltip btn">
+                        {/* <div className="basic-tooltip btn">
                           <Icon type="info" width="18" height="18" />
                           <span className="tooltiptext">
                             {new Date(task.updated).toLocaleString()}
                           </span>
-                        </div>
+                        </div> */}
                       </div>
                       <div className="col-2">
                         <div

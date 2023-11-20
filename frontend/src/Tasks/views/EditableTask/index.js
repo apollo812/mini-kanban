@@ -66,7 +66,7 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
         </div>
       ) : (
         <div className="input-group">
-          <div className="border border-solid border-transparent p-1.5 px-2.5">{task.text}</div>
+          <div className="p-1.5 px-2.5">{task.text}</div>
         </div>
       )}
     </div>
