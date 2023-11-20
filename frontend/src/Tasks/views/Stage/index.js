@@ -2,6 +2,7 @@ import React from "react";
 import { Draggable } from "react-beautiful-dnd";
 import EditableTask from "Tasks/views/EditableTask";
 import Icon from "Components/Icon";
+import { Tooltip } from "@material-tailwind/react";
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
@@ -27,8 +28,8 @@ function Stage({ data, stage, removeTask, updateTask }) {
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}
               >
-                <div className="grid grid-cols-12">
-                  <div className={task.text ? "col-span-11" : "col-span-12"}>
+                <div className="grid grid-cols-12 gap-[2px]">
+                  <div className={task.text ? "col-span-10" : "col-span-12"}>
                     <EditableTask
                       updateTask={updateTask}
                       removeTask={removeTask}
@@ -38,20 +39,19 @@ function Stage({ data, stage, removeTask, updateTask }) {
                   </div>
                   {task.text && (
                     <React.Fragment>
-                      {/* <div className="col-span-1">
-                        <div className="basic-tooltip btn">
-                          <Icon type="info" width="18" height="18" />
-                          <span className="tooltiptext">
-                            {new Date(task.updated).toLocaleString()}
-                          </span>
-                        </div>
-                      </div> */}
+                      <div className="col-span-1">
+                        <Tooltip content={new Date(task.updated).toLocaleString()} placement="top">
+                          <button>
+                            <Icon type="info" width="14" height="14" className="text-kanban_txt mt-[1px]" />
+                          </button>
+                        </Tooltip>
+                      </div>
                       <div className="col-span-1 self-center">
                         <div
                           className="cursor-pointer z-10"
                           onClick={() => removeTask({ taskID: task.id, stage })}
                         >
-                          <Icon type="remove" width="12" height="12" />
+                          <Icon type="remove" width="12" height="12" className="text-kanban_txt" />
                         </div>
                       </div>
                     </React.Fragment>

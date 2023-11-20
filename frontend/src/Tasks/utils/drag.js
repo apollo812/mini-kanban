@@ -2,7 +2,7 @@ export const getListStyle = isDraggingOver => ({
   borderRadius: ".25rem",
   transition: "all 0.3s",
   outline: 0,
-  background: isDraggingOver ? "#6f42c1" : "transparent"
+  background: isDraggingOver ? "#151910" : "transparent"
 });
 
 const reorder = (list, startIndex, endIndex) => {

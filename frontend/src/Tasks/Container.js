@@ -63,10 +63,10 @@ function Tasks() {
   };
   return (
     <div className="px-4">
-      <SearchForm
+      {/* <SearchForm
         updateSearchTerm={updateSearchTerm}
         searchTerm={state.tasks.searchTerm}
-      />
+      /> */}
         
       <div className="py-4 w-full relative overflow-x-auto h-[calc(100vh-80px)]">
         <div className="inline-flex gap-6">
@@ -83,7 +83,7 @@ function Tasks() {
                         className="cursor-pointer z-10"
                         onClick={() => addEmptyTask(key)}
                       >
-                        <Icon type="add" />
+                        <Icon type="add" width="12" height="12" className="text-kanban_txt mt-1" />
                       </div>
                     </div>
                   </div>
@@ -104,17 +104,24 @@ function Tasks() {
                       </div>
                     )}
                   </Droppable>
+
+                  <div className="hover:bg-kanban_bg-card rounded-lg p-1.5 cursor-pointer" onClick={() => addEmptyTask(key)}>
+                    <div className="flex gap-4">
+                      <Icon type="add" width="12" height="12" className="text-kanban_txt mt-1" />
+                      <p className="text-sm font-bold text-kanban_txt">Add a card</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
 
             <div className="w-[272px]">
-              <div className="p-3 bg-kanban_bg-add_plan rounded-lg shadow-md">
+              <div className="p-3 bg-kanban_bg-add_plan rounded-lg shadow-md hover:bg-kanban_bg-add_plan_hover">
                 <div className="flex gap-4">
-                  <div className="items-center">
-                    <Icon type="add" />
+                  <div className="">
+                    <Icon type="add" width="12" height="12" className="text-white mt-1" />
                   </div>
-                  <p className="text-sm text-white">Add Plan</p>
+                  <p className="text-sm text-white font-bold cursor-default">Add another list</p>
                 </div>
               </div>
             </div>

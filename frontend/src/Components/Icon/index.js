@@ -8,8 +8,9 @@ const Icon = ({
   title,
   children,
   type,
+  className
 }) => (
-  <svg width={width} height={height} viewBox={viewBox} className="text-kanban_txt">
+  <svg width={width} height={height} viewBox={viewBox} className={className}>
     <title>{title}</title>
     {children || icons(type)}
   </svg>

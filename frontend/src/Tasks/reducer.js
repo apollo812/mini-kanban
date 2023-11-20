@@ -44,13 +44,13 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         [stage]: [
+          ...state[stage],
           {
             id: create_UUID(),
             editMode: true,
             created: now,
             updated: now
           },
-          ...state[stage]
         ]
       };
     }
