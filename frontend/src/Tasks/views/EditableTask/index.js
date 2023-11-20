@@ -66,7 +66,7 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
         </div>
       ) : (
         <div className="">
-          <div className="text-kanban_txt text-xs">{task.text}</div>
+          <div className="text-kanban_txt text-xs mt-[2px]">{task.text}</div>
         </div>
       )}
     </div>

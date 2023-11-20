@@ -10,21 +10,27 @@ import {
   NEW_TASK_ITEM,
   UPDATE_TASK_ITEM,
   UPDATE_SEARCH_TERM,
+  ADD_STAGE,
+  REMOVE_STAGE,
 } from "./actions";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getListStyle, handleDragEnd } from "./utils/drag";
 import Icon from "Components/Icon";
 import Pop from "./views/Pop";
+import { createUUID } from "./utils";
 
 function Tasks() {
   const { state, dispatch } = React.useContext(Store);
 
   const [sortList, setSortList] = useState([])
+  const [stageList, setStageList] = useState([...stages])
+  const [newListText, setNewListText] = useState("")
+  const [isAddListMode, setIsAddListMode] = useState(false)
 
   useEffect(() => {
-    let tmp_list = stages.map(data => data.sort); // Using map to transform data and return the result
+    let tmp_list = stageList.map(data => data.sort); // Using map to transform data and return the result
     setSortList([...tmp_list]);
-  }, [])
+  }, [stageList])
 
   const updateTasks = payload => {
     return dispatch({
@@ -32,24 +38,46 @@ function Tasks() {
       payload
     });
   };
+
   const addEmptyTask = payload => {
     return dispatch({
       type: NEW_TASK_ITEM,
       payload
     });
   };
+
   const updateTask = payload => {
     return dispatch({
       type: UPDATE_TASK_ITEM,
       payload
     });
   };
+
   const removeTask = payload => {
     return dispatch({
       type: REMOVE_TASK,
       payload
     });
   };
+
+  const addStage = payload => {
+    return dispatch({
+      type: ADD_STAGE,
+      payload
+    });
+  };
+
+  const removeStage = payload => {
+    let tmp_list = [...stageList]
+    tmp_list.splice(payload.pos, 1)
+    setStageList([...tmp_list])
+
+    return dispatch({
+      type: REMOVE_STAGE,
+      payload
+    });
+  };
+
   const updateSearchTerm = payload => {
     return dispatch({
       type: UPDATE_SEARCH_TERM,
@@ -64,6 +92,7 @@ function Tasks() {
   }
 
   const getList = key => state.tasks[key];
+
   const onDragEnd = result => {
     // clear sort list
     let tmp_list = Array(sortList.length).fill("custom");
@@ -71,6 +100,7 @@ function Tasks() {
 
     handleDragEnd({ result, updateTasks, getList });
   }
+
   const getStageData = (key, sort) => {
     console.log(state)
     // if (state.tasks.searchTerm === "") {
@@ -86,17 +116,38 @@ function Tasks() {
 
     switch(sort){
       case "newest":
-        return state.tasks[key].sort((a, b) => new Date(a.created) - new Date(b.created));
+        return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => new Date(a.created) - new Date(b.created));
       case "oldest":
-        return state.tasks[key].sort((a, b) => new Date(b.created) - new Date(a.created));
+        return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => new Date(b.created) - new Date(a.created));
       case "update":
-        return state.tasks[key].sort((a, b) => new Date(a.updated) - new Date(b.updated));
+        return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => new Date(a.updated) - new Date(b.updated));
       case "alpha":
-        return state.tasks[key].sort((a, b) => a.text && b.text && a.text.localeCompare(b.text));
+        return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => a.text && b.text && a.text.localeCompare(b.text));
       default:
         return state.tasks[key];
     }
   };
+
+  function handleNewListTextChange(e) {
+    setNewListText(e.target.value);
+  }
+
+  const addNewList = () => {
+    let tmp_list = [...stageList];
+    let new_stage = {
+      key: createUUID(),
+      title: newListText,
+      sort: "newest"
+    }
+    tmp_list.push(new_stage)
+    setStageList([...tmp_list])
+    addStage(new_stage)
+
+    // init 
+    setIsAddListMode(false)
+    setNewListText("")
+  }
+
   return (
     <div className="px-4">
       {/* <SearchForm
@@ -107,7 +158,7 @@ function Tasks() {
       <div className="py-4 w-full relative overflow-x-auto overflow-y-hidden h-[calc(100vh-80px)]">
         <div className="inline-flex gap-6">
           <DragDropContext onDragEnd={onDragEnd}>
-            {stages.map(({ key, title }, index) => (
+            {stageList.map(({ key, title }, index) => (
               <div className="w-[272px]" key={key}>
                 <div className="p-3 bg-kanban_bg-plan rounded-lg shadow-md">
                   <div className="grid grid-cols-12">
@@ -115,7 +166,7 @@ function Tasks() {
                       <h2 className="text-kanban_txt font-bold text-sm">{title}</h2>
                     </div>
                     <div className="col-span-1">
-                      <Pop addEmptyTask={addEmptyTask} updateSortList={updateSortList} id={key} pos={index} />
+                      <Pop addEmptyTask={addEmptyTask} updateSortList={updateSortList} removeStage={removeStage} id={key} pos={index} />
                     </div>
                   </div>
                   <Droppable droppableId={key}>
@@ -147,13 +198,35 @@ function Tasks() {
             ))}
 
             <div className="w-[272px]">
-              <div className="p-3 bg-kanban_bg-add_plan rounded-lg shadow-md hover:bg-kanban_bg-add_plan_hover">
-                <div className="flex gap-4">
-                  <div className="">
-                    <Icon type="add" width="12" height="12" className="text-white mt-1" />
+              <div className={`p-3 shadow-md rounded-lg ${!isAddListMode ? "bg-kanban_bg-add_plan hover:bg-kanban_bg-add_plan_hover" : "bg-kanban_bg-plan"}`}>
+                {
+                  isAddListMode && 
+                  <>
+                    <input
+                      className="focus:border-2 focus:border-blue-400 focus:outline-0 rounded-lg text-sm my-2"
+                      type="text"
+                      placeholder="New item..."
+                      value={newListText}
+                      onChange={handleNewListTextChange}
+                      autoFocus
+                    />
+                    <div className="flex gap-4 py-1">
+                      <p className="text-sm text-black bg-blue-400 rounded py-1 px-3 cursor-pointer" onClick={() => addNewList()}>Add List</p>
+                      <div className="self-center cursor-pointer" onClick={() => {setIsAddListMode(false); setNewListText("")}}>
+                        <Icon type="remove" width="12" height="12" className="text-kanban_txt mt-1" />
+                      </div>
+                    </div>
+                  </>
+                }
+                {
+                  !isAddListMode && 
+                  <div className="flex gap-4">
+                    <div>
+                      <Icon type="add" width="12" height="12" className="text-white mt-1" />
+                    </div>
+                    <p className="text-sm text-white font-bold cursor-default" onClick={() => setIsAddListMode(true)}>Add another list</p>
                   </div>
-                  <p className="text-sm text-white font-bold cursor-default">Add another list</p>
-                </div>
+                }
               </div>
             </div>
           </DragDropContext>

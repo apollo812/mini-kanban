@@ -1,32 +1,32 @@
 const stages = [
   {
-    key: "panel1",
-    title: "Panel1",
+    key: "list1",
+    title: "List1",
     sort: "alpha"
   },
   {
-    key: "panel2",
-    title: "Panel2",
+    key: "list2",
+    title: "List2",
     sort: "newest"
   },
   {
-    key: "panel3",
-    title: "Panel3",
+    key: "list3",
+    title: "List3",
     sort: "newest"
   },
   {
-    key: "panel4",
-    title: "Panel4",
+    key: "list4",
+    title: "List4",
     sort: "newest"
   },
   {
-    key: "panel5",
-    title: "Panel5",
+    key: "list5",
+    title: "List5",
     sort: "newest"
   },
   {
-    key: "panel6",
-    title: "Panel6",
+    key: "list6",
+    title: "List6",
     sort: "newest"
   }
 ];

@@ -15,7 +15,7 @@ function Stage({ data, stage, removeTask, updateTask }) {
   return (
     <div className="p-2 max-h-[calc(100vh-200px)] overflow-y-auto">
       <div className="grid gap-2">
-        {data.map((task, index) => (
+        {data && data.map((task, index) => (
           <Draggable key={task.id} draggableId={task.id} index={index}>
             {(provided, snapshot) => (
               <div

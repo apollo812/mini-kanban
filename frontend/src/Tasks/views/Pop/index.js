@@ -2,7 +2,7 @@ import { Popover, PopoverContent, PopoverHandler } from "@material-tailwind/reac
 import Icon from "Components/Icon";
 import React, { useState } from "react";
 
-function Pop({ addEmptyTask, updateSortList, id, pos }) {
+function Pop({ addEmptyTask, updateSortList, removeStage, id, pos }) {
 
   const [open, setOpen] = useState(false)
 
@@ -38,6 +38,11 @@ function Pop({ addEmptyTask, updateSortList, id, pos }) {
           </div>
           <div className="py-2 cursor-pointer" onClick={() => {updateSortList(pos, "alpha"); setOpen(false)}}>
             Sort list (alphabetically)
+          </div>
+          <hr className="opacity-10" />
+
+          <div className="py-2 cursor-pointer" onClick={() => {removeStage({id, pos}); setOpen(false)}}>
+            Remove list...
           </div>
         </div>
       </PopoverContent>
