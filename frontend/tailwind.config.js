@@ -13,7 +13,8 @@ module.exports = {
           add_plan: "#AA6D8A",
           add_plan_hover: "#93557A",
           scroll: "#AF8699",
-          tooltip: "#9FADBC"
+          tooltip: "#9FADBC",
+          edit: "#282E33"
         },
         kanban_txt: {
           DEFAULT: "#B6C2CF"

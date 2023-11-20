@@ -40,7 +40,7 @@ function Stage({ data, stage, removeTask, updateTask }) {
                   {task.text && (
                     <React.Fragment>
                       <div className="col-span-1">
-                        <Tooltip content={new Date(task.updated).toLocaleString()} placement="top">
+                        <Tooltip content={new Date(task.created).toLocaleString()} placement="top">
                           <button>
                             <Icon type="info" width="14" height="14" className="text-kanban_txt mt-[1px]" />
                           </button>
