@@ -68,7 +68,7 @@ function Tasks() {
     // clear sort list
     let tmp_list = Array(sortList.length).fill("custom");
     setSortList([...tmp_list])
-    
+
     handleDragEnd({ result, updateTasks, getList });
   }
   const getStageData = (key, sort) => {
@@ -104,7 +104,7 @@ function Tasks() {
         searchTerm={state.tasks.searchTerm}
       /> */}
         
-      <div className="py-4 w-full relative overflow-x-auto h-[calc(100vh-80px)]">
+      <div className="py-4 w-full relative overflow-x-auto overflow-y-hidden h-[calc(100vh-80px)]">
         <div className="inline-flex gap-6">
           <DragDropContext onDragEnd={onDragEnd}>
             {stages.map(({ key, title }, index) => (
