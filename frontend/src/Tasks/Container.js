@@ -2,14 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Store } from "../Store";
 
 import Stage from "./views/Stage";
-import SearchForm from "./views/SearchForm";
 import stages from "./stages";
 import {
   UPDATE_TASKS,
   REMOVE_TASK,
   NEW_TASK_ITEM,
   UPDATE_TASK_ITEM,
-  UPDATE_SEARCH_TERM,
   ADD_STAGE,
   REMOVE_STAGE,
 } from "./actions";
@@ -78,13 +76,6 @@ function Tasks() {
     });
   };
 
-  const updateSearchTerm = payload => {
-    return dispatch({
-      type: UPDATE_SEARCH_TERM,
-      payload
-    });
-  };
-
   const updateSortList = (index, value) => {
     let tmp_list = [...sortList]
     tmp_list[index] = value
@@ -102,18 +93,6 @@ function Tasks() {
   }
 
   const getStageData = (key, sort) => {
-    console.log(state)
-    // if (state.tasks.searchTerm === "") {
-    //   return state.tasks[key];
-    // }
-    // return state.tasks[key].filter(t => {
-    //   const filter = state.tasks.searchTerm.toUpperCase();
-    //   if (t.text && t.text.toUpperCase().indexOf(filter) > -1) {
-    //     return true;
-    //   }
-    //   return false;
-    // });
-
     switch(sort){
       case "newest":
         return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => new Date(a.created) - new Date(b.created));
@@ -150,11 +129,6 @@ function Tasks() {
 
   return (
     <div className="px-4">
-      {/* <SearchForm
-        updateSearchTerm={updateSearchTerm}
-        searchTerm={state.tasks.searchTerm}
-      /> */}
-        
       <div className="py-4 w-full relative overflow-x-auto overflow-y-hidden h-[calc(100vh-80px)]">
         <div className="inline-flex gap-6">
           <DragDropContext onDragEnd={onDragEnd}>

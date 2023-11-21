@@ -3,7 +3,6 @@ import {
   UPDATE_TASK_ITEM,
   UPDATE_TASKS,
   REMOVE_TASK,
-  UPDATE_SEARCH_TERM,
   ADD_STAGE,
   REMOVE_STAGE
 } from "./actions";
@@ -34,13 +33,6 @@ export default function reducer(state = initialState, action) {
       return{
         ...state
       }
-    }
-
-    case UPDATE_SEARCH_TERM: {
-      return {
-        ...state,
-        searchTerm: action.payload
-      };
     }
 
     case NEW_TASK_ITEM: {
