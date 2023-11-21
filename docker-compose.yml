@@ -2,6 +2,7 @@ version: "3.7"
 
 services:
   frontend:
+    image: gluck0101/mini-kanban-frontend:latest
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -15,6 +16,7 @@ services:
       - backend
 
   backend:
+    image: gluck0101/mini-kanban-backend:latest
     build:
       context: ./backend
       dockerfile: Dockerfile
