@@ -1,6 +1,6 @@
 import graphene
 from models.card_model import CardModel
-from graphqls.schemas.card_schema import CardType
+from ..schemas.card_schema import CardType
 
 class CreateCard(graphene.Mutation):
     class Arguments:

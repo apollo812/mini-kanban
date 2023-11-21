@@ -5,6 +5,6 @@ from models.list_model import ListModel
 class ListType(graphene.ObjectType):
     id = graphene.String()
     title = graphene.String()
-    sort = graphene.Int()
+    sort = graphene.String()
 
 # Define any other necessary GraphQL fields and types for ListModel
