@@ -15,7 +15,6 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getListStyle, handleDragEnd } from "./utils/drag";
 import Icon from "Components/Icon";
 import Pop from "./views/Pop";
-import { createUUID } from "./utils";
 import { useQuery, useMutation } from '@apollo/client';
 import { getInitialState } from "./reducer";
 import { GET_DATA, CREATE_LIST } from "./gq";
@@ -36,8 +35,22 @@ function Tasks() {
   useEffect(() => {
     if(data){
       console.log("list data", data.getAllList)
+      console.log("card data", data.getAllCard)
 
-      const payload = getInitialState([...data.getAllList])
+      let payload = getInitialState([...data.getAllList])
+
+      data.getAllCard && data.getAllCard.length > 0 && data.getAllCard.map(data => (
+        payload[`${data.listId}`].push({
+          id: data.id,
+          text: data.text,
+          editMode: data.editMode,
+          created: new Date(data.created),
+          updated: new Date(data.updated),
+        })
+      ))
+
+      console.log("payload", payload)
+
       dispatch({
         type: INIT_STATE,
         payload

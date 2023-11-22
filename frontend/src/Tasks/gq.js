@@ -13,6 +13,7 @@ export const GET_DATA = gql`
       editMode
       created
       updated
+      listId
     }
   }
 `;
