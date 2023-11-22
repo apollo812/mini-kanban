@@ -11,3 +11,7 @@ class CardHandler:
             FilterExpression=Attr('key').eq(key) & Attr('listId').eq(listId)
         )
         return response['Items']
+
+    def get_all_card(self):
+        response = self.table.scan()
+        return response['Items']

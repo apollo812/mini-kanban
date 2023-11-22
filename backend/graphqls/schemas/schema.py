@@ -12,6 +12,7 @@ class Query(graphene.ObjectType):
     # Card
     CardTypeList = graphene.List(CardType)
     get_card = graphene.Field(CardTypeList, key=graphene.String(required=True), listId=graphene.String(required=True))
+    get_all_card = graphene.Field(CardTypeList)
 
     # List
     def resolve_get_list(self, info, id):
@@ -22,4 +23,6 @@ class Query(graphene.ObjectType):
     # Card
     def resolve_get_card(self, info, key, listId):
         return card_resolvers.resolve_get_card(key, listId)
+    def resolve_get_all_card(self, info):
+        return card_resolvers.resolve_get_all_card()
 
