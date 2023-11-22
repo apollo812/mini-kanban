@@ -3,6 +3,7 @@ from models.list_model import ListModel
 
 class ListType(graphene.ObjectType):
     id = graphene.String()
+    key = graphene.String()
     title = graphene.String()
     sort = graphene.String()
     created = graphene.String()
