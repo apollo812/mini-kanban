@@ -17,6 +17,6 @@ class CreateList(graphene.Mutation):
         table = dynamodb.Table('Lists')
         id = title.replace(" ", "-").lower() + '-' + str(uuid.uuid4())
         current_datetime = time2graphql()
-        table.put_item(Item={'id': id, 'key': id, 'title': title, 'sort': 'newest', 'created': current_datetime, 'updated': current_datetime})
-        return CreateList(list=ListModel(id, id, title, 'newest', current_datetime, current_datetime))
+        table.put_item(Item={'id': id, 'key': id, 'title': title, 'sort': 'custom', 'created': current_datetime, 'updated': current_datetime})
+        return CreateList(list=ListModel(id, id, title, 'custom', current_datetime, current_datetime))
 
