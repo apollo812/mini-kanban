@@ -8,3 +8,7 @@ class ListHandler:
     def get_list(self, id):
         response = self.table.get_item(Key={'id': id})
         return response.get('Item')
+
+    def get_all_list(self):
+        response = self.table.scan()
+        return response['Items']
