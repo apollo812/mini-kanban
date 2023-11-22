@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Store } from "../Store";
 
 import Stage from "./views/Stage";
-import stages from "./stages";
 import {
   UPDATE_TASKS,
   REMOVE_TASK,
@@ -17,29 +16,13 @@ import { getListStyle, handleDragEnd } from "./utils/drag";
 import Icon from "Components/Icon";
 import Pop from "./views/Pop";
 import { createUUID } from "./utils";
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { getInitialState } from "./reducer";
-
-const GET_DATA = gql`
-  query {
-    getAllList{
-      key
-      title
-      sort
-    },
-    getAllCard{
-      id
-      text
-      editMode
-      created
-      updated
-    }
-  }
-`;
+import { GET_DATA, CREATE_LIST } from "./gq";
 
 function Tasks() {
+  // Get Data Using Apollo Client
   const { loading, error, data } = useQuery(GET_DATA);
-  
   
   const { state, dispatch } = React.useContext(Store);
   
@@ -47,6 +30,8 @@ function Tasks() {
   const [stageList, setStageList] = useState([])
   const [newListText, setNewListText] = useState("")
   const [isAddListMode, setIsAddListMode] = useState(false)
+  
+  const [createList] = useMutation(CREATE_LIST);
   
   useEffect(() => {
     if(data){
@@ -57,7 +42,6 @@ function Tasks() {
         type: INIT_STATE,
         payload
       });
-      // localStorage.setItem("app_state", JSON.stringify(init_data))
       setStageList([...data.getAllList])
     }
   }, [data, dispatch])
@@ -67,6 +51,7 @@ function Tasks() {
     setSortList([...tmp_list]);
   }, [stageList])
   
+  // Apollo client loading data and error message
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
@@ -151,16 +136,32 @@ function Tasks() {
     setNewListText(e.target.value);
   }
 
-  const addNewList = () => {
-    let tmp_list = [...stageList];
-    let new_stage = {
-      key: createUUID(),
-      title: newListText,
-      sort: "newest"
+  const addNewList = async () => {
+    
+    try {
+      // Execute the mutation
+      let result = await createList({
+        variables: {
+          title: newListText,
+        }
+      });
+
+      console.log("result", result)
+
+      let tmp_list = [...stageList];
+      let new_stage = {
+        key: result.data.createList.list.key,
+        title: result.data.createList.list.title,
+        sort: result.data.createList.list.sort
+      }
+      tmp_list.push(new_stage)
+      setStageList([...tmp_list])
+      addStage(new_stage)
+
+    } catch (error) {
+      console.log("error", error)
+      alert(error)
     }
-    tmp_list.push(new_stage)
-    setStageList([...tmp_list])
-    addStage(new_stage)
 
     // init 
     setIsAddListMode(false)
