@@ -47,3 +47,14 @@ export const CREATE_CARD = gql`
     }
   }
 `
+
+export const CARD_INDEX_DRAG = gql`
+  mutation CardIndexDrag($listId: String!, $cardPos: Int!, $targetPos: Int!){
+    cardIndexDrag(listId: $listId, cardPos: $cardPos, targetPos: $targetPos) {
+      cards {
+        text
+        index
+      }
+    }
+  }
+`

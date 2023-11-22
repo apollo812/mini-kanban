@@ -17,7 +17,7 @@ import Icon from "Components/Icon";
 import Pop from "./views/Pop";
 import { useQuery, useMutation } from '@apollo/client';
 import { getInitialState } from "./reducer";
-import { GET_DATA, CREATE_LIST } from "./gq";
+import { GET_DATA, CREATE_LIST, CARD_INDEX_DRAG } from "./gq";
 
 function Tasks() {
   // Get Data Using Apollo Client
@@ -31,6 +31,7 @@ function Tasks() {
   const [isAddListMode, setIsAddListMode] = useState(false)
   
   const [createList] = useMutation(CREATE_LIST);
+  const [cardIndexDrag] = useMutation(CARD_INDEX_DRAG);
   
   useEffect(() => {
     if(data){
@@ -127,7 +128,7 @@ function Tasks() {
     let tmp_list = Array(sortList.length).fill("custom");
     setSortList([...tmp_list])
 
-    handleDragEnd({ result, updateTasks, getList });
+    handleDragEnd({ result, updateTasks, getList, cardIndexDrag });
   }
 
   const getStageData = (key, sort) => {
