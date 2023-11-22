@@ -46,9 +46,9 @@ function Stage({ data, stage, removeTask, updateTask }) {
                           </button>
                         </Tooltip>
                       </div>
-                      <div className="col-span-1 self-center">
+                      <div className="col-span-1 self-center cursor-pointer ">
                         <div
-                          className="cursor-pointer z-10"
+                          className="z-10"
                           onClick={() => removeTask({ taskID: task.id, stage })}
                         >
                           <Icon type="remove" width="12" height="12" className="text-kanban_txt" />

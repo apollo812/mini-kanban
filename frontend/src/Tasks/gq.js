@@ -10,6 +10,7 @@ export const GET_DATA = gql`
     getAllCard{
       id
       text
+      index
       editMode
       created
       updated

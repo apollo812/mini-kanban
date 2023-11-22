@@ -141,7 +141,7 @@ function Tasks() {
       case "alpha":
         return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => a.text && b.text && a.text.localeCompare(b.text));
       default:
-        return state.tasks[key];
+        return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => a.index - b.index);
     }
   };
 
