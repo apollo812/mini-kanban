@@ -3,6 +3,8 @@ import graphene
 from models.list_model import ListModel
 from ..schemas.list_schema import ListType
 from database.dynamodb_client import get_dynamodb_client
+from utils.time import time2graphql
+from datetime import datetime
 
 class CreateList(graphene.Mutation):
     class Arguments:
@@ -15,7 +17,7 @@ class CreateList(graphene.Mutation):
         dynamodb = get_dynamodb_client(local=True)
         table = dynamodb.Table('Lists')
         id = title.replace(" ", "-").lower() + '-' + str(uuid.uuid4())
-        table.put_item(Item={'id': id, 'title': title, 'sort': sort})
-        return CreateList(list=ListModel(id, title, sort))
+        current_datetime = time2graphql()
+        table.put_item(Item={'id': id, 'title': title, 'sort': sort, 'created': current_datetime, 'updated': current_datetime})
+        return CreateList(list=ListModel(id, title, sort, current_datetime, current_datetime))
 
-# Define update and delete mutations as needed

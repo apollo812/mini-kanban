@@ -1,5 +1,5 @@
 from ..handlers.card_handler import CardHandler
 
-def resolve_get_card(key, list_id):
+def resolve_get_card(key, listId):
     card = CardHandler()
-    return card.get_card(key, list_id)
+    return card.get_card(key, listId)

@@ -1,7 +1,8 @@
 class CardModel:
-    def __init__(self, key, list_id, index, text, editMode, created, updated):
+    def __init__(self, id, key, listId, index, text, editMode, created, updated):
+        self.id = id
         self.key = key
-        self.list_id = list_id
+        self.listId = listId
         self.index = index
         self.text = text
         self.editMode = editMode

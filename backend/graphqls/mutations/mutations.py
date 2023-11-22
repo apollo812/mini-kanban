@@ -6,4 +6,3 @@ class Mutation(graphene.ObjectType):
     create_list = CreateList.Field()
     create_card = CreateCard.Field()
 
-# Add more mutations as necessary
