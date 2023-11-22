@@ -16,19 +16,39 @@ import { getListStyle, handleDragEnd } from "./utils/drag";
 import Icon from "Components/Icon";
 import Pop from "./views/Pop";
 import { createUUID } from "./utils";
+import { useQuery, gql } from '@apollo/client';
+
+const GET_LIST_DATA = gql`
+  query {
+    getAllList{
+      title
+      sort
+    }
+  }
+`;
 
 function Tasks() {
+  const { loading, error, data } = useQuery(GET_LIST_DATA);
+  
+  
   const { state, dispatch } = React.useContext(Store);
-
+  
   const [sortList, setSortList] = useState([])
   const [stageList, setStageList] = useState([...stages])
   const [newListText, setNewListText] = useState("")
   const [isAddListMode, setIsAddListMode] = useState(false)
+  
+  useEffect(() => {
+    console.log("list data", data)
+  }, [data])
 
   useEffect(() => {
     let tmp_list = stageList.map(data => data.sort); // Using map to transform data and return the result
     setSortList([...tmp_list]);
   }, [stageList])
+  
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   const updateTasks = payload => {
     return dispatch({

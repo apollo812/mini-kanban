@@ -16,10 +16,26 @@ from graphqls.schemas.schema import Query
 from graphqls.mutations.mutations import Mutation
 from graphene import Schema
 from starlette_graphene3 import GraphQLApp, make_playground_handler #,make_graphiql_handler
+from fastapi.middleware.cors import CORSMiddleware
 
+# Define allowed origins, methods, and headers
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://localhost:8080",
+]
 
 app = FastAPI(title='mini-kanban-backend', description='GraphQL APIs')
 
+# Add CORS middleware to the FastAPI app
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 schema = Schema(query=Query, mutation=Mutation)
 
