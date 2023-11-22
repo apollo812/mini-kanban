@@ -137,7 +137,6 @@ function Tasks() {
   }
 
   const addNewList = async () => {
-    
     try {
       // Execute the mutation
       let result = await createList({

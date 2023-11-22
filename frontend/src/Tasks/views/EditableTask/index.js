@@ -1,4 +1,6 @@
+import { useMutation } from "@apollo/client";
 import React, { useRef, useState } from "react";
+import { CREATE_CARD } from "Tasks/gq";
 import useOnClickOutside from "Tasks/utils/useOnClickOutside";
 
 export default function EditableTask({ task, stage, removeTask, updateTask }) {
@@ -8,6 +10,8 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
   const [showAnimation, setShowAnimation] = useState(false);
   let timer;
 
+  const [createCard] = useMutation(CREATE_CARD);
+
   useOnClickOutside(elementToEdit, () => {
     handleEmptyTask();
   });
@@ -16,21 +20,41 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
     setText(e.target.value);
   }
 
-  function handleTaskUpdate() {
+  async function handleTaskUpdate() {
     if (!text) {
       removeTask({ taskID: task.id, stage });
     }
-    updateTask({
-      taskID: task.id,
-      text,
-      stage
-    });
+
+    try {
+      // Execute the mutation
+      let result = await createCard({
+        variables: {
+          id: task.id,
+          listId: stage,
+          text: text
+        }
+      });
+
+      console.log("result", result)
+
+      updateTask({
+        taskID: result.data.createCard.card.id,
+        text: result.data.createCard.card.text,
+        stage: result.data.createCard.card.list
+      });
+      
+    } catch (error) {
+      console.log("error", error)
+      alert(error)
+    }
+
     setIsEditing(false);
     setShowAnimation(true);
     timer = setTimeout(() => {
       setShowAnimation(false);
       clearTimeout(timer);
     }, 600);
+    
   }
 
   function handleEmptyTask() {
