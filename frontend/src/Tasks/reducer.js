@@ -4,7 +4,8 @@ import {
   UPDATE_TASKS,
   REMOVE_TASK,
   ADD_STAGE,
-  REMOVE_STAGE
+  REMOVE_STAGE,
+  INIT_STATE
 } from "./actions";
 import stages from "./stages";
 import { createUUID } from "./utils";
@@ -21,6 +22,13 @@ const initialState = getInitialState(stages);
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case INIT_STATE: {
+      return{
+        ...state,
+        ...action.payload,
+      }
+    }
+
     case ADD_STAGE: {
       return {
         ...state,

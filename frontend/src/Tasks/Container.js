@@ -10,6 +10,7 @@ import {
   UPDATE_TASK_ITEM,
   ADD_STAGE,
   REMOVE_STAGE,
+  INIT_STATE
 } from "./actions";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { getListStyle, handleDragEnd } from "./utils/drag";
@@ -17,30 +18,49 @@ import Icon from "Components/Icon";
 import Pop from "./views/Pop";
 import { createUUID } from "./utils";
 import { useQuery, gql } from '@apollo/client';
+import { getInitialState } from "./reducer";
 
-const GET_LIST_DATA = gql`
+const GET_DATA = gql`
   query {
     getAllList{
+      key
       title
       sort
+    },
+    getAllCard{
+      id
+      text
+      editMode
+      created
+      updated
     }
   }
 `;
 
 function Tasks() {
-  const { loading, error, data } = useQuery(GET_LIST_DATA);
+  const { loading, error, data } = useQuery(GET_DATA);
   
   
   const { state, dispatch } = React.useContext(Store);
   
   const [sortList, setSortList] = useState([])
-  const [stageList, setStageList] = useState([...stages])
+  const [stageList, setStageList] = useState([])
   const [newListText, setNewListText] = useState("")
   const [isAddListMode, setIsAddListMode] = useState(false)
   
   useEffect(() => {
-    console.log("list data", data)
-  }, [data])
+    if(data){
+      console.log("list data", data.getAllList)
+
+      const payload = getInitialState([...data.getAllList])
+      dispatch({
+        type: INIT_STATE,
+        payload
+      });
+      // localStorage.setItem("app_state", JSON.stringify(init_data))
+      setStageList([...data.getAllList])
+    }
+  }, [data, dispatch])
 
   useEffect(() => {
     let tmp_list = stageList.map(data => data.sort); // Using map to transform data and return the result
