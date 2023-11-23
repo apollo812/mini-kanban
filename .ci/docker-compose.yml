@@ -23,6 +23,14 @@ services:
     environment:
       - DB_STRING=dynamodb://dynamodb:8000
 
+  interface:
+    build:
+      context: ..
+      dockerfile: frontend/Dockerfile
+      target: test
+    volumes:
+      - ../frontend:/app/frontend
+
   dynamodb:
     image: amazon/dynamodb-local
     ports:

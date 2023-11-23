@@ -7,11 +7,11 @@ on:
 
 jobs:
   test:
-    name: Run the test suite
+    name: Run the backend test suite
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Run the tests
-        run: make test
+        run: make api_test

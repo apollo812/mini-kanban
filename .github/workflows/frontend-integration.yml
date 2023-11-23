@@ -1,0 +1,17 @@
+name: Frontend Code Integration
+
+on:
+  push:
+    branches:
+        - main
+
+jobs:
+  build:
+    name: Run the frontend test suite
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Run the tests
+      run: make ui_test

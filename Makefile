@@ -36,8 +36,8 @@ push-frontend:
 push-backend:
 	cd backend && docker push gluck0101/mini-kanban-backend:latest
 
-done: test ## Prepare for a commit
-test: utest itest  ## Run unit and integration tests
+done: api_test ui_test ## Prepare for a commit
+api_test: utest itest  ## Run unit and integration tests
 
 ci-docker-compose := docker-compose -f .ci/docker-compose.yml
 
@@ -50,3 +50,6 @@ itest: cleantest ## Run integration tests
 cleantest:  ## Clean up test containers
 	$(ci-docker-compose) build
 	$(ci-docker-compose) down --remove-orphans
+
+ui_test:	## Run interface test
+	$(ci-docker-compose) run --rm interface npm test -m interface .
