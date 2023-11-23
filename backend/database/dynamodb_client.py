@@ -7,7 +7,7 @@ def get_dynamodb_client(local=True):
         # Connect to DynamoDB Local
         dynamodb = boto3.resource(
             'dynamodb',
-            endpoint_url='http://localhost:8000',
+            endpoint_url='http://db:8000',
             region_name='us-west-2',  # You can use any valid AWS region
             aws_access_key_id='anything',  # DynamoDB Local doesn't care about these
             aws_secret_access_key='anything',
