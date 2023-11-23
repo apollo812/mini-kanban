@@ -91,6 +91,8 @@ function Tasks() {
   };
 
   const updateTask = payload => {
+    clearSortList()
+    
     return dispatch({
       type: UPDATE_TASK_ITEM,
       payload
@@ -162,8 +164,7 @@ function Tasks() {
 
   const onDragEnd = result => {
     // clear sort list
-    let tmp_list = Array(sortList.length).fill("default");
-    setSortList([...tmp_list])
+    clearSortList()
 
     handleDragEnd({ result, updateTasks, getList, cardIndexDrag, cardIndexDragToOther });
   }
@@ -184,6 +185,11 @@ function Tasks() {
         return state.tasks[key]
     }
   };
+
+  function clearSortList(){
+    let tmp_list = Array(sortList.length).fill("default");
+    setSortList([...tmp_list])
+  }
 
   function handleNewListTextChange(e) {
     setNewListText(e.target.value);
