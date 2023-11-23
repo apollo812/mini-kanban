@@ -58,3 +58,14 @@ export const CARD_INDEX_DRAG = gql`
     }
   }
 `
+
+export const CARD_INDEX_DRAG_TO_OTHER = gql`
+  mutation CardIndexDragToOther($cardListId: String!, $targetListId: String!, $cardPos: Int!, $targetPos: Int!){
+    cardIndexDragToOther(cardListId: $cardListId, targetListId: $targetListId, cardPos: $cardPos, targetPos: $targetPos) {
+      cards {
+        text
+        index
+      }
+    }
+  }
+`

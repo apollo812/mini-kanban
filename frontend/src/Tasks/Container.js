@@ -17,7 +17,7 @@ import Icon from "Components/Icon";
 import Pop from "./views/Pop";
 import { useQuery, useMutation } from '@apollo/client';
 import { getInitialState } from "./reducer";
-import { GET_DATA, CREATE_LIST, CARD_INDEX_DRAG } from "./gq";
+import { GET_DATA, CREATE_LIST, CARD_INDEX_DRAG, CARD_INDEX_DRAG_TO_OTHER } from "./gq";
 
 function Tasks() {
   // Get Data Using Apollo Client
@@ -32,6 +32,7 @@ function Tasks() {
   
   const [createList] = useMutation(CREATE_LIST);
   const [cardIndexDrag] = useMutation(CARD_INDEX_DRAG);
+  const [cardIndexDragToOther] = useMutation(CARD_INDEX_DRAG_TO_OTHER);
   
   useEffect(() => {
     if(data){
@@ -44,6 +45,7 @@ function Tasks() {
         payload[`${data.listId}`].push({
           id: data.id,
           text: data.text,
+          index: data.index,
           editMode: data.editMode,
           created: new Date(data.created),
           updated: new Date(data.updated),
@@ -125,10 +127,10 @@ function Tasks() {
 
   const onDragEnd = result => {
     // clear sort list
-    let tmp_list = Array(sortList.length).fill("custom");
+    let tmp_list = Array(sortList.length).fill("default");
     setSortList([...tmp_list])
 
-    handleDragEnd({ result, updateTasks, getList, cardIndexDrag });
+    handleDragEnd({ result, updateTasks, getList, cardIndexDrag, cardIndexDragToOther });
   }
 
   const getStageData = (key, sort) => {
@@ -141,8 +143,10 @@ function Tasks() {
         return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => new Date(a.updated) - new Date(b.updated));
       case "alpha":
         return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => a.text && b.text && a.text.localeCompare(b.text));
-      default:
+      case "custom":
         return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => a.index - b.index);
+      default:
+        return state.tasks[key]
     }
   };
 

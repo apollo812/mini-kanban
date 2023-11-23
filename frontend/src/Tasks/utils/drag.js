@@ -27,7 +27,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
   return result;
 };
 
-export const handleDragEnd = async ({ result, updateTasks, getList, cardIndexDrag }) => {
+export const handleDragEnd = async ({ result, updateTasks, getList, cardIndexDrag, cardIndexDragToOther }) => {
   const { source, destination } = result;
   
   // dropped outside the list
@@ -42,28 +42,28 @@ export const handleDragEnd = async ({ result, updateTasks, getList, cardIndexDra
       getList(source.droppableId),
       source.index,
       destination.index
-      );
+    );
       
-      tasks = {
-        [source.droppableId]: items
-      };
-      updateTasks(tasks);
-      
-      try {
-        // Execute the mutation
-        let result = await cardIndexDrag({
-          variables: {
-            listId: source.droppableId, 
-            cardPos: source.index, 
-            targetPos: destination.index
-          }
-        });
-  
-        console.log("result", result)
-      } catch (error) {
-        console.log("error", error)
-        alert(error)
-      }
+    tasks = {
+      [source.droppableId]: items
+    };
+    updateTasks(tasks);
+    
+    try {
+      // Execute the mutation
+      let result = await cardIndexDrag({
+        variables: {
+          listId: source.droppableId, 
+          cardPos: source.index, 
+          targetPos: destination.index
+        }
+      });
+
+      console.log("result", result)
+    } catch (error) {
+      console.log("error", error)
+      alert(error)
+    }
   } else {
     tasks = move(
       getList(source.droppableId),
@@ -72,5 +72,22 @@ export const handleDragEnd = async ({ result, updateTasks, getList, cardIndexDra
       destination
     );
     updateTasks(tasks);
+
+    try {
+      // Execute the mutation
+      let result = await cardIndexDragToOther({
+        variables: {
+          cardListId: source.droppableId, 
+          targetListId: destination.droppableId, 
+          cardPos: source.index, 
+          targetPos: destination.index
+        }
+      });
+
+      console.log("result", result)
+    } catch (error) {
+      console.log("error", error)
+      alert(error)
+    }
   }
 };
