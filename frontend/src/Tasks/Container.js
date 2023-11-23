@@ -308,11 +308,11 @@ function Tasks() {
                 }
                 {
                   !isAddListMode && 
-                  <div className="flex gap-4">
+                  <div className="flex gap-4" onClick={() => setIsAddListMode(true)}>
                     <div>
                       <Icon type="add" width="12" height="12" className="text-white mt-1" />
                     </div>
-                    <p className="text-sm text-white font-bold cursor-default" onClick={() => setIsAddListMode(true)}>Add another list</p>
+                    <p className="text-sm text-white font-bold cursor-default">Add another list</p>
                   </div>
                 }
               </div>
