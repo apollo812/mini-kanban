@@ -7,14 +7,14 @@ export COMPOSE_DOCKER_CLI_BUILD=1
 
 targets: help
 
-up: ## Run the application
-	up-backend up-frontend up-db
+## Run the application
+up: up-backend up-frontend up-db
 
-build: ## Build the application
-	build-frontend build-backend
+## Build the application
+build: build-frontend build-backend
 
-push: ## Push the application to docker hub
-	push-frontend push-backend
+## Push the application to docker hub
+push: push-frontend push-backend
 
 # Build the project
 build-frontend:

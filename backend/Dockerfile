@@ -10,9 +10,6 @@ RUN groupadd --gid 1000 user &&  adduser --disabled-password --gecos '' --uid 10
 # Set the working directory for the subsequent commands.
 WORKDIR /app
 
-# Copy the requirements.txt file and install the Python dependencies.
-COPY --chown=user:user /backend/requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
 
 # Switch to the non-root user for security purposes.
 USER user
@@ -20,13 +17,21 @@ USER user
 # Create a new stage named 'dev' based on the 'base' stage.
 FROM base as dev
 
+# Copy the requirements.txt file and install the Python dependencies.
+COPY --chown=user:user ./requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
 # Copy the project files into the container.
-COPY --chown=user:user ./$PROJECT /app/$PROJECT
+COPY --chown=user:user . ./
 # Define the command to run when the container starts.
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--reload"]
 
 # Create a new stage named 'test' based on the 'base' stage.
 FROM base as test
+
+# Copy the requirements.txt file and install the Python dependencies.
+COPY --chown=user:user /backend/requirements-test.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Switch back to the root user temporarily to create the .mypy_cache directory
 USER root
