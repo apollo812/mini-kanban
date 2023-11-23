@@ -60,7 +60,10 @@ function Tasks() {
         type: INIT_STATE,
         payload
       });
-      setStageList([...data.getAllList])
+
+      let tmp_stages = [...data.getAllList]
+      tmp_stages && tmp_stages.length > 0 && tmp_stages.sort((a, b) => new Date(a.created) - new Date(b.created));
+      setStageList([...tmp_stages])
     }
   }, [data, dispatch])
 

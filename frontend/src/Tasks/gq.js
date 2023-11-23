@@ -5,7 +5,8 @@ export const GET_DATA = gql`
     getAllList{
       key
       title
-      sort
+      sort,
+      created
     },
     getAllCard{
       id
