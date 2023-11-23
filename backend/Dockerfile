@@ -17,10 +17,12 @@ USER user
 # Create a new stage named 'dev' based on the 'base' stage.
 FROM base as dev
 
+USER root
 # Copy the requirements.txt file and install the Python dependencies.
 COPY --chown=user:user ./requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
+USER user
 # Copy the project files into the container.
 COPY --chown=user:user . ./
 # Define the command to run when the container starts.
