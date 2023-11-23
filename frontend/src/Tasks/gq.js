@@ -85,3 +85,15 @@ export const DELETE_LIST = gql`
     }
   }
 `
+
+export const UPDATE_LIST = gql`
+  mutation UpdateList($id: String!, $sort: String!){
+    updateList(id: $id, sort: $sort) {
+      list {
+        id
+        title
+        sort
+      }
+    }
+  }
+`

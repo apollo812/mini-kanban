@@ -17,7 +17,7 @@ import Icon from "Components/Icon";
 import Pop from "./views/Pop";
 import { useQuery, useMutation } from '@apollo/client';
 import { getInitialState } from "./reducer";
-import { GET_DATA, CREATE_LIST, CARD_INDEX_DRAG, CARD_INDEX_DRAG_TO_OTHER, DELETE_LIST } from "./gq";
+import { GET_DATA, CREATE_LIST, CARD_INDEX_DRAG, CARD_INDEX_DRAG_TO_OTHER, DELETE_LIST, UPDATE_LIST } from "./gq";
 
 function Tasks() {
   // Get Data Using Apollo Client
@@ -34,6 +34,7 @@ function Tasks() {
   const [cardIndexDrag] = useMutation(CARD_INDEX_DRAG);
   const [cardIndexDragToOther] = useMutation(CARD_INDEX_DRAG_TO_OTHER);
   const [deleteList] = useMutation(DELETE_LIST)
+  const [updateList] = useMutation(UPDATE_LIST)
   
   useEffect(() => {
     if(data){
@@ -132,10 +133,26 @@ function Tasks() {
     });
   };
 
-  const updateSortList = (index, value) => {
+  const updateSortList = async (id, index, value) => {
     let tmp_list = [...sortList]
     tmp_list[index] = value
     setSortList([...tmp_list])
+
+    try {
+      // Execute the mutation
+      let result = await updateList({
+        variables: {
+          id: id,
+          sort: value
+        }
+      });
+
+      console.log("result", result)
+    } catch (error) {
+      console.log("error", error)
+      alert(error)
+    }
+
   }
 
   const getList = key => state.tasks[key];

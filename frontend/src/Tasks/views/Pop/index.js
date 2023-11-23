@@ -27,16 +27,16 @@ function Pop({ addEmptyTask, updateSortList, removeStage, id, pos }) {
           </div>
           <hr className="opacity-10" />
 
-          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(pos, "newest"); setOpen(false)}}>
+          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(id, pos, "newest"); setOpen(false)}}>
             Sort list (newest first)
           </div>
-          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(pos, "oldest"); setOpen(false)}}>
+          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(id, pos, "oldest"); setOpen(false)}}>
             Sort list (oldest first)
           </div>
-          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(pos, "update"); setOpen(false)}}>
+          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(id, pos, "update"); setOpen(false)}}>
             Sort list (update)
           </div>
-          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(pos, "alpha"); setOpen(false)}}>
+          <div className="py-2 cursor-pointer" onClick={() => {updateSortList(id, pos, "alpha"); setOpen(false)}}>
             Sort list (alphabetically)
           </div>
           <hr className="opacity-10" />
