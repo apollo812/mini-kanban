@@ -23,6 +23,14 @@ class CreateCard(graphene.Mutation):
             FilterExpression=Attr('listId').eq(listId)
         )['Items'])
 
+        response = table.scan(
+            FilterExpression=Attr('listId').eq(listId) & Attr('id').eq(id)
+        )['Items']
+
+        if response:  # If the response is not empty update state
+            card_cnt = card_cnt - 1
+            print("Response is not empty! 😊")
+        
         table.put_item(Item={'id': id, 'key': id, 'listId': listId, 'index': card_cnt, 'text': text, 'editMode': False, 'created': current_datetime, 'updated': current_datetime})
         return CreateCard(card=CardModel(id, id, listId, card_cnt, text, False, current_datetime, current_datetime))
 
