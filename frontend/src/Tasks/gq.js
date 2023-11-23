@@ -69,3 +69,11 @@ export const CARD_INDEX_DRAG_TO_OTHER = gql`
     }
   }
 `
+
+export const DELETE_CARD = gql`
+  mutation DeleteCard($id: String!) {
+    deleteCard(id: $id){
+      card
+    }
+  }
+`

@@ -3,6 +3,8 @@ import { Draggable } from "react-beautiful-dnd";
 import EditableTask from "Tasks/views/EditableTask";
 import Icon from "Components/Icon";
 import { Tooltip } from "@material-tailwind/react";
+import { useMutation } from '@apollo/client';
+import { DELETE_CARD } from "Tasks/gq";
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   userSelect: "none",
@@ -11,7 +13,28 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   ...draggableStyle
 });
 
+
 function Stage({ data, stage, removeTask, updateTask }) {
+  const [deleteCard] = useMutation(DELETE_CARD);
+  
+  const clickRemoveTask = (id, stage) => async e => {
+    removeTask({ taskID: id, stage })
+
+    try {
+      // Execute the mutation
+      let result = await deleteCard({
+        variables: {
+          id: id,
+        }
+      });
+
+      console.log("result", result)
+    } catch (error) {
+      console.log("error", error)
+      alert(error)
+    }
+  }
+
   return (
     <div className="p-2 max-h-[calc(100vh-200px)] overflow-y-auto">
       <div className="grid gap-2">
@@ -49,7 +72,7 @@ function Stage({ data, stage, removeTask, updateTask }) {
                       <div className="col-span-1 self-center cursor-pointer ">
                         <div
                           className="z-10"
-                          onClick={() => removeTask({ taskID: task.id, stage })}
+                          onClick={clickRemoveTask(task.id, stage) }
                         >
                           <Icon type="remove" width="12" height="12" className="text-kanban_txt" />
                         </div>
