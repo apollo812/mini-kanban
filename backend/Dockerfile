@@ -31,7 +31,7 @@ FROM base as test
 
 # Copy the requirements.txt file and install the Python dependencies.
 COPY --chown=user:user /backend/requirements-test.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-test.txt
 
 # Switch back to the root user temporarily to create the .mypy_cache directory
 USER root
