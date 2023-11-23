@@ -23,30 +23,30 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
   async function handleTaskUpdate() {
     if (!text) {
       removeTask({ taskID: task.id, stage });
-    }
-
-    try {
-      // Execute the mutation
-      let result = await createCard({
-        variables: {
-          id: task.id,
-          listId: stage,
-          text: text
-        }
-      });
-
-      console.log("result", result)
-
-      updateTask({
-        taskID: result.data.createCard.card.id,
-        text: result.data.createCard.card.text,
-        stage: result.data.createCard.card.listId,
-        index: result.data.createCard.card.inde
-      });
-      
-    } catch (error) {
-      console.log("error", error)
-      alert(error)
+    } else {
+      try {
+        // Execute the mutation
+        let result = await createCard({
+          variables: {
+            id: task.id,
+            listId: stage,
+            text: text
+          }
+        });
+  
+        console.log("result", result)
+  
+        updateTask({
+          taskID: result.data.createCard.card.id,
+          text: result.data.createCard.card.text,
+          stage: result.data.createCard.card.listId,
+          index: result.data.createCard.card.inde
+        });
+        
+      } catch (error) {
+        console.log("error", error)
+        alert(error)
+      }
     }
 
     setIsEditing(false);
