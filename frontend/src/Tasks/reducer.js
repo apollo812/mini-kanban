@@ -61,7 +61,7 @@ export default function reducer(state = initialState, action) {
     }
 
     case UPDATE_TASK_ITEM: {
-      const { taskID, text, stage } = action.payload;
+      const { taskID, text, stage, index } = action.payload;
       const now = new Date().getTime();
       return {
         ...state,
@@ -72,6 +72,7 @@ export default function reducer(state = initialState, action) {
           return {
             ...item,
             text,
+            index,
             editMode: false,
             updated: now
           };

@@ -40,7 +40,7 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
           taskID: result.data.createCard.card.id,
           text: result.data.createCard.card.text,
           stage: result.data.createCard.card.listId,
-          index: result.data.createCard.card.inde
+          index: result.data.createCard.card.index
         });
         
       } catch (error) {
