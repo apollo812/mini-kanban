@@ -77,3 +77,11 @@ export const DELETE_CARD = gql`
     }
   }
 `
+
+export const DELETE_LIST = gql`
+  mutation DeleteList($id: String!) {
+    deleteList(id: $id){
+      list
+    }
+  }
+`
