@@ -16,11 +16,3 @@ class CardHandler:
         response = self.table.scan()
         return response['Items']
 
-    def del_card(self, id):
-        try:
-            response = self.table.delete_item(Key={'id': id})
-            print(response)
-            return True
-        except Exception as e:
-            print(f"Error deleting item: {e}")
-            return False

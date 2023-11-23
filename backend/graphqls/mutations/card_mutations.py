@@ -26,6 +26,24 @@ class CreateCard(graphene.Mutation):
         table.put_item(Item={'id': id, 'key': id, 'listId': listId, 'index': card_cnt, 'text': text, 'editMode': False, 'created': current_datetime, 'updated': current_datetime})
         return CreateCard(card=CardModel(id, id, listId, card_cnt, text, False, current_datetime, current_datetime))
 
+class DeleteCard(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+        pass
+
+    card = graphene.Boolean()
+
+    def mutate(self, info, id):
+        dynamodb = get_dynamodb_client(local=True)
+        table = dynamodb.Table('Cards')
+
+        try:
+            response = table.delete_item(Key={'id': id})
+            return DeleteCard(card=True)
+        except Exception as e:
+            print(f"Error deleting item: {e}")
+            return DeleteCard(card=False)
+
 class CardIndexDragToOther(graphene.Mutation):
     class Arguments:
         cardListId = graphene.String(required=True)
