@@ -47,6 +47,17 @@ class DeleteCard(graphene.Mutation):
         dynamodb = get_dynamodb_client(local=True)
         table = dynamodb.Table('Cards')
 
+        card_data = table.get_item(Key={'id': id}).get('Item')
+        card_cnt = len(table.scan(
+            FilterExpression=Attr('listId').eq(card_data['listId'])
+        )['Items'])
+
+        for num in range(int(card_data['index']) + 1, card_cnt):
+            tmp_card = table.scan(
+                FilterExpression=Attr('listId').eq(card_data['listId']) & Attr('index').eq(num)
+            )['Items']
+            table.put_item(Item={'id': tmp_card[0]['id'], 'key': tmp_card[0]['key'], 'listId': tmp_card[0]['listId'], 'index': tmp_card[0]['index'] - 1, 'text': tmp_card[0]['text'], 'editMode': False, 'created': tmp_card[0]['created'], 'updated': tmp_card[0]['updated']})
+        
         try:
             response = table.delete_item(Key={'id': id})
             return DeleteCard(card=True)
