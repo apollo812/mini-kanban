@@ -53,7 +53,7 @@ class CardIndexDragToOther(graphene.Mutation):
             FilterExpression=Attr('listId').eq(cardListId) & Attr('index').eq(cardPos)
         )['Items']
 
-        for num in range(targetPos, target_cnt):
+        for num in range(target_cnt - 1, targetPos - 1, -1):
             tmp_card = table.scan(
                 FilterExpression=Attr('listId').eq(targetListId) & Attr('index').eq(num)
             )['Items']
