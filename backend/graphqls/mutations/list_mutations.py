@@ -21,6 +21,24 @@ class CreateList(graphene.Mutation):
         table.put_item(Item={'id': id, 'key': id, 'title': title, 'sort': 'custom', 'created': current_datetime, 'updated': current_datetime})
         return CreateList(list=ListModel(id, id, title, 'custom', current_datetime, current_datetime))
 
+class UpdateList(graphene.Mutation):
+    class Arguments:
+        id = graphene.String(required=True)
+        sort = graphene.String(required=True)
+
+    list = graphene.Field(ListType)
+
+    def mutate(self, info, id, sort):
+        dynamodb = get_dynamodb_client(local=True)
+        table = dynamodb.Table('Lists')
+        response = table.scan(
+            FilterExpression=Attr('id').eq(id)
+        )['Items']
+        current_datetime = time2graphql()
+        newItem = {'id': response[0]['id'], 'key': response[0]['key'], 'title': response[0]['title'], 'sort': sort, 'created': response[0]['created'], 'updated': response[0]['updated']}
+        table.put_item(Item=newItem)
+        return UpdateList(list=ListModel(newItem['id'], newItem['key'], newItem['title'], newItem['sort'], newItem['created'], newItem['updated']))
+
 class DeleteList(graphene.Mutation):
     class Arguments:
         id = graphene.String(required=True)
