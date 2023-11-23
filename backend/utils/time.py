@@ -7,6 +7,4 @@ def time2graphql():
     # Convert to GraphQL datetime format
     graphql_datetime = current_datetime.strftime("%Y-%m-%dT%H:%M:%S.%fZ")
 
-    print(graphql_datetime)
-
     return graphql_datetime

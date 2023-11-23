@@ -47,5 +47,3 @@ async def root():
 
 # Mount the GraphQL app
 app.mount("/graphql", GraphQLApp(schema=schema, on_get=make_playground_handler()))
-
-# app.include_router(kanban_router, prefix="/kanban", tags=["kanban"])

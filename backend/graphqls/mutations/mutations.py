@@ -10,4 +10,3 @@ class Mutation(graphene.ObjectType):
     card_index_drag = CardIndexDrag.Field()
     card_index_drag_to_other = CardIndexDragToOther.Field()
     delete_card = DeleteCard.Field()
-

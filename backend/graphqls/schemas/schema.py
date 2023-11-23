@@ -25,4 +25,3 @@ class Query(graphene.ObjectType):
         return card_resolvers.resolve_get_card(key, listId)
     def resolve_get_all_card(self, info):
         return card_resolvers.resolve_get_all_card()
-

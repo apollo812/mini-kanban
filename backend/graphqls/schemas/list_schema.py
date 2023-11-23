@@ -8,4 +8,3 @@ class ListType(graphene.ObjectType):
     sort = graphene.String()
     created = graphene.String()
     updated = graphene.String()
-
