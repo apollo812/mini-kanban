@@ -69,7 +69,7 @@ function Tasks() {
   }, [data, dispatch])
 
   useEffect(() => {
-    let tmp_list = stageList.map(data => data.sort); // Using map to transform data and return the result
+    let tmp_list = stageList.map(() => "custom"); // Using map to transform data and return the result
     setSortList([...tmp_list]);
   }, [stageList])
   
