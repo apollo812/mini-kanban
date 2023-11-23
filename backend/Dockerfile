@@ -33,13 +33,11 @@ FROM base as test
 COPY --chown=user:user /backend/requirements-test.txt ./
 RUN pip install --no-cache-dir -r requirements-test.txt
 
-# Switch back to the root user temporarily to create the .mypy_cache directory
 USER root
 # Copy the project files into the container.
-COPY --chown=user:user ./$PROJECT /app/$PROJECT
+COPY --chown=user:user . ./
 # Create a directory for mypy cache and change its ownership to the non-root user.
 RUN mkdir /app/.mypy_cache && chown user:user -R /app/.mypy_cache
-RUN mkdir /app/.pytest_cache && chown user:user -R /app/.pytest_cache
 # Switch back to the non-root user
 USER user
 
