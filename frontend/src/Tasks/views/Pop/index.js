@@ -1,10 +1,26 @@
 import { Popover, PopoverContent, PopoverHandler } from "@material-tailwind/react";
 import Icon from "Components/Icon";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 function Pop({ addEmptyTask, updateSortList, removeStage, id, pos }) {
 
   const [open, setOpen] = useState(false)
+
+  const popoverRef = useRef(null);
+
+  const handleClickOutside = (event) => {
+    if (popoverRef.current && !popoverRef.current.contains(event.target)) {
+      setOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <Popover placement="bottom-start" open={open}>
@@ -13,7 +29,7 @@ function Pop({ addEmptyTask, updateSortList, removeStage, id, pos }) {
       </PopoverHandler>
       <button onClick={() => {setOpen(true);}}><Icon type="dot" width="18" height="8" className="text-kanban_txt mt-1" /></button>
       <PopoverContent>
-        <div className=" bg-kanban_bg-edit text-kanban_txt px-3 w-72 rounded-lg">
+        <div className=" bg-kanban_bg-edit text-kanban_txt px-3 w-72 rounded-lg" ref={popoverRef}>
           <div className="relative text-center py-3">
             <p className="font-bold">List Actions</p>
             <div className="cursor-pointer" onClick={() => setOpen(false)}>
