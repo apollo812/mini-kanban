@@ -28,7 +28,7 @@ class CreateCard(graphene.Mutation):
         )['Items']
 
         if response:  # If the response is not empty update state
-            table.put_item(Item={'id': id, 'key': id, 'listId': listId, 'index': card_cnt - 1, 'text': text, 'editMode': False, 'created': response[0]['created'], 'updated': current_datetime})
+            table.put_item(Item={'id': id, 'key': id, 'listId': listId, 'index': response[0]['index'], 'text': text, 'editMode': False, 'created': response[0]['created'], 'updated': current_datetime})
             print("Response is not empty! 😊")
         else:   #create state
             table.put_item(Item={'id': id, 'key': id, 'listId': listId, 'index': card_cnt, 'text': text, 'editMode': False, 'created': current_datetime, 'updated': current_datetime})
