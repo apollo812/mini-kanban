@@ -35,9 +35,14 @@ RUN pip install --no-cache-dir -r requirements-test.txt
 
 USER root
 # Copy the project files into the container.
-COPY --chown=user:user . ./
+COPY --chown=user:user ./$PROJECT /app/$PROJECT
 # Create a directory for mypy cache and change its ownership to the non-root user.
 RUN mkdir /app/.mypy_cache && chown user:user -R /app/.mypy_cache
+# Install pytest within the test stage
+RUN pip install pytest
+
+# Define the default command to run when the container starts in the test stage
+CMD ["pytest"]
 # Switch back to the non-root user
 USER user
 
