@@ -210,6 +210,10 @@ function Tasks() {
     setNewListText(e.target.value);
   }
 
+  function handleKeyPress(event) {
+    if (event.keyCode === 13) addNewList();
+  }
+
   const addNewList = async () => {
     try {
       // Execute the mutation
@@ -296,6 +300,7 @@ function Tasks() {
                       placeholder="New item..."
                       value={newListText}
                       onChange={handleNewListTextChange}
+                      onKeyUp={handleKeyPress}
                       autoFocus
                     />
                     <div className="flex gap-4 py-1">
