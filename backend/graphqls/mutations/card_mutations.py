@@ -61,7 +61,7 @@ class CardIndexDragToOther(graphene.Mutation):
         
         table.put_item(Item={'id': data_card[0]['id'], 'key': data_card[0]['key'], 'listId': targetListId, 'index': targetPos, 'text': data_card[0]['text'], 'editMode': False, 'created': data_card[0]['created'], 'updated': data_card[0]['updated']})
         
-        for num in range(cardPos + 1, cardPos):
+        for num in range(cardPos + 1, card_cnt):
             tmp_card = table.scan(
                 FilterExpression=Attr('listId').eq(cardListId) & Attr('index').eq(num)
             )['Items']
@@ -87,7 +87,7 @@ class CardIndexDrag(graphene.Mutation):
         table = dynamodb.Table('Cards')
 
         if cardPos > targetPos:  #drag up
-            tmp_card = table.scan(
+            data_card = table.scan(
                 FilterExpression=Attr('listId').eq(listId) & Attr('index').eq(cardPos)
             )['Items']
             target_card = table.scan(
@@ -96,7 +96,7 @@ class CardIndexDrag(graphene.Mutation):
             table.put_item(Item={'id': data_card[0]['id'], 'key': data_card[0]['key'], 'listId': data_card[0]['listId'], 'index': targetPos, 'text': data_card[0]['text'], 'editMode': False, 'created': data_card[0]['created'], 'updated': data_card[0]['updated']})
             table.put_item(Item={'id': target_card[0]['id'], 'key': target_card[0]['key'], 'listId': target_card[0]['listId'], 'index': targetPos + 1, 'text': target_card[0]['text'], 'editMode': False, 'created': target_card[0]['created'], 'updated': target_card[0]['updated']})
             
-            for num in range(targetPos + 1, cardPos):
+            for num in range(targetPos, cardPos):
                 data = table.scan(
                     FilterExpression=Attr('listId').eq(listId) & Attr('index').eq(num)
                 )['Items']
@@ -112,7 +112,6 @@ class CardIndexDrag(graphene.Mutation):
             print("data_card", data_card)
             print("target_card", target_card)
             table.put_item(Item={'id': data_card[0]['id'], 'key': data_card[0]['key'], 'listId': data_card[0]['listId'], 'index': targetPos, 'text': data_card[0]['text'], 'editMode': False, 'created': data_card[0]['created'], 'updated': data_card[0]['updated']})
-            table.put_item(Item={'id': target_card[0]['id'], 'key': target_card[0]['key'], 'listId': target_card[0]['listId'], 'index': targetPos - 1, 'text': target_card[0]['text'], 'editMode': False, 'created': target_card[0]['created'], 'updated': target_card[0]['updated']})
             
             for num in range(cardPos + 1, targetPos):
                 data = table.scan(
@@ -120,6 +119,8 @@ class CardIndexDrag(graphene.Mutation):
                 )['Items']
                 table.put_item(Item={'id': data[0]['id'], 'key': data[0]['key'], 'listId': data[0]['listId'], 'index': num - 1, 'text': data[0]['text'], 'editMode': False, 'created': data[0]['created'], 'updated': data[0]['updated']})
 
+            table.put_item(Item={'id': target_card[0]['id'], 'key': target_card[0]['key'], 'listId': target_card[0]['listId'], 'index': targetPos - 1, 'text': target_card[0]['text'], 'editMode': False, 'created': target_card[0]['created'], 'updated': target_card[0]['updated']})
+            
         card_data = table.scan(
             FilterExpression=Attr('listId').eq(listId)
         )['Items']
