@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  unit:
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+      target: test
+    volumes:
+      - ../backend:/app/backend
+    environment:
+      - DB_STRING=dynamodb://local:8000
+
+  integration:
+    depends_on:
+      - dynamodb
+    build:
+      context: ..
+      dockerfile: backend/Dockerfile
+      target: test
+    volumes:
+      - ../backend:/app/backend
+    environment:
+      - DB_STRING=dynamodb://dynamodb:8000
+
+  dynamodb:
+    image: amazon/dynamodb-local
+    ports:
+      - "8000:8000"

@@ -3,3 +3,5 @@ uvicorn
 graphene
 starlette-graphene3
 boto3
+pytest
+httpx
