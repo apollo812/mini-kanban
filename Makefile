@@ -52,4 +52,4 @@ cleantest:  ## Clean up test containers
 	$(ci-docker-compose) down --remove-orphans
 
 ui_test:	## Run interface test
-	$(ci-docker-compose) run --rm interface npm test -m interface .
+	$(ci-docker-compose) run --rm interface npm test -- --watchAll=false interface .
