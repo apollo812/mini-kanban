@@ -33,18 +33,16 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
             text: text
           }
         });
-  
-        console.log("result", result)
-  
+
         updateTask({
           taskID: result.data.createCard.card.id,
           text: result.data.createCard.card.text,
           stage: result.data.createCard.card.listId,
           index: result.data.createCard.card.index
         });
-        
+
       } catch (error) {
-        console.log("error", error)
+        // console.log("error", error)
         alert(error)
       }
     }
@@ -55,7 +53,7 @@ export default function EditableTask({ task, stage, removeTask, updateTask }) {
       setShowAnimation(false);
       clearTimeout(timer);
     }, 600);
-    
+
   }
 
   function handleEmptyTask() {

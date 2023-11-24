@@ -29,39 +29,37 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 export const handleDragEnd = async ({ result, updateTasks, getList, cardIndexDrag, cardIndexDragToOther }) => {
   const { source, destination } = result;
-  
+
   // dropped outside the list
   if (!destination) {
     return;
   }
-  
+
   let tasks = {};
-  
+
   if (source.droppableId === destination.droppableId) {
     const items = reorder(
       getList(source.droppableId),
       source.index,
       destination.index
     );
-      
+
     tasks = {
       [source.droppableId]: items
     };
     updateTasks(tasks);
-    
+
     try {
       // Execute the mutation
-      let result = await cardIndexDrag({
+      await cardIndexDrag({
         variables: {
-          listId: source.droppableId, 
-          cardPos: source.index, 
+          listId: source.droppableId,
+          cardPos: source.index,
           targetPos: destination.index
         }
       });
-
-      console.log("result", result)
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       alert(error)
     }
   } else {
@@ -75,18 +73,16 @@ export const handleDragEnd = async ({ result, updateTasks, getList, cardIndexDra
 
     try {
       // Execute the mutation
-      let result = await cardIndexDragToOther({
+      await cardIndexDragToOther({
         variables: {
-          cardListId: source.droppableId, 
-          targetListId: destination.droppableId, 
-          cardPos: source.index, 
+          cardListId: source.droppableId,
+          targetListId: destination.droppableId,
+          cardPos: source.index,
           targetPos: destination.index
         }
       });
-
-      console.log("result", result)
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       alert(error)
     }
   }

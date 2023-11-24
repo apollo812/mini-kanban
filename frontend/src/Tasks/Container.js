@@ -22,26 +22,23 @@ import { GET_DATA, CREATE_LIST, CARD_INDEX_DRAG, CARD_INDEX_DRAG_TO_OTHER, DELET
 function Tasks() {
   // Get Data Using Apollo Client
   const { loading, error, data } = useQuery(GET_DATA);
-  
+
   const { state, dispatch } = React.useContext(Store);
-  
+
   const [sortList, setSortList] = useState([])
   const [stageList, setStageList] = useState([])
   const [newListText, setNewListText] = useState("")
   const [isAddListMode, setIsAddListMode] = useState(false)
-  
+
   const [createList] = useMutation(CREATE_LIST);
   const [cardIndexDrag] = useMutation(CARD_INDEX_DRAG);
   const [cardIndexDragToOther] = useMutation(CARD_INDEX_DRAG_TO_OTHER);
   const [deleteList] = useMutation(DELETE_LIST)
   const [updateList] = useMutation(UPDATE_LIST)
   const [deleteCard] = useMutation(DELETE_CARD);
-  
-  useEffect(() => {
-    if(data){
-      console.log("list data", data.getAllList)
-      console.log("card data", data.getAllCard)
 
+  useEffect(() => {
+    if (data) {
       let payload = getInitialState([...data.getAllList])
 
       data.getAllCard && data.getAllCard.length > 0 && data.getAllCard.map(data => (
@@ -54,8 +51,6 @@ function Tasks() {
           updated: new Date(data.updated),
         })
       ))
-
-      console.log("payload", payload)
 
       dispatch({
         type: INIT_STATE,
@@ -72,7 +67,7 @@ function Tasks() {
     let tmp_list = stageList.map(() => "custom"); // Using map to transform data and return the result
     setSortList([...tmp_list]);
   }, [stageList])
-  
+
   // Apollo client loading data and error message
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -103,15 +98,15 @@ function Tasks() {
   const removeTask = async payload => {
     try {
       // Execute the mutation
-      let result = await deleteCard({
+      await deleteCard({
         variables: {
           id: payload.taskID,
         }
       });
 
-      console.log("result", result)
+      // console.log("result", result)
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       alert(error)
     }
 
@@ -135,15 +130,13 @@ function Tasks() {
 
     try {
       // Execute the mutation
-      let result = await deleteList({
+      await deleteList({
         variables: {
           id: payload.id,
         }
       });
-
-      console.log("result", result)
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       alert(error)
     }
 
@@ -160,16 +153,14 @@ function Tasks() {
 
     try {
       // Execute the mutation
-      let result = await updateList({
+      await updateList({
         variables: {
           id: id,
           sort: value
         }
       });
-
-      console.log("result", result)
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       alert(error)
     }
 
@@ -185,7 +176,7 @@ function Tasks() {
   }
 
   const getStageData = (key, sort) => {
-    switch(sort){
+    switch (sort) {
       case "newest":
         return state.tasks[key] && state.tasks[key].length > 0 && state.tasks[key].sort((a, b) => new Date(b.created) - new Date(a.created));
       case "oldest":
@@ -201,7 +192,7 @@ function Tasks() {
     }
   };
 
-  function clearSortList(){
+  function clearSortList() {
     let tmp_list = Array(sortList.length).fill("default");
     setSortList([...tmp_list])
   }
@@ -223,8 +214,6 @@ function Tasks() {
         }
       });
 
-      console.log("result", result)
-
       let tmp_list = [...stageList];
       let new_stage = {
         key: result.data.createList.list.key,
@@ -236,7 +225,7 @@ function Tasks() {
       addStage(new_stage)
 
     } catch (error) {
-      console.log("error", error)
+      // console.log("error", error)
       alert(error)
     }
 
@@ -292,7 +281,7 @@ function Tasks() {
             <div className="w-[272px]">
               <div className={`p-3 shadow-md rounded-lg ${!isAddListMode ? "bg-kanban_bg-add_plan hover:bg-kanban_bg-add_plan_hover" : "bg-kanban_bg-plan"}`}>
                 {
-                  isAddListMode && 
+                  isAddListMode &&
                   <>
                     <input
                       className="focus:border-2 focus:border-blue-400 focus:outline-0 rounded-lg text-sm my-2"
@@ -305,14 +294,14 @@ function Tasks() {
                     />
                     <div className="flex gap-4 py-1">
                       <p className="text-sm text-black bg-blue-400 rounded py-1 px-3 cursor-pointer" onClick={() => addNewList()}>Add List</p>
-                      <div className="self-center cursor-pointer" onClick={() => {setIsAddListMode(false); setNewListText("")}}>
+                      <div className="self-center cursor-pointer" onClick={() => { setIsAddListMode(false); setNewListText("") }}>
                         <Icon type="remove" width="12" height="12" className="text-kanban_txt mt-1" />
                       </div>
                     </div>
                   </>
                 }
                 {
-                  !isAddListMode && 
+                  !isAddListMode &&
                   <div className="flex gap-4" onClick={() => setIsAddListMode(true)}>
                     <div>
                       <Icon type="add" width="12" height="12" className="text-white mt-1" />
