@@ -47,4 +47,4 @@ https://hub.docker.com/repository/docker/gluck0101/mini-kanban-frontend
 
 ## 5. Loom
 
-``https://www.loom.com/share/d8c07c91c42d484888df0048b144eab8``
+https://www.loom.com/share/d8c07c91c42d484888df0048b144eab8
