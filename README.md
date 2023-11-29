@@ -37,10 +37,6 @@ I set up the CI/CD pipeline with Docker, Docker-Compose, GitHub Actions, and a M
 ### Build the project
 ``make build``
 
-## 4. Loom
-
-``https://www.loom.com/share/d8c07c91c42d484888df0048b144eab8``
-
 ## 4. Docker hub link
 
 ### Backend
@@ -48,3 +44,7 @@ https://hub.docker.com/repository/docker/gluck0101/mini-kanban-backend
 
 ### Frontend
 https://hub.docker.com/repository/docker/gluck0101/mini-kanban-frontend
+
+## 5. Loom
+
+``https://www.loom.com/share/d8c07c91c42d484888df0048b144eab8``
